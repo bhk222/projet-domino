@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>حاسبة الدومينو</title>
+    
+    <link rel="icon" type="image/png" href="/icons/icon-192x192.png" />
+    <link rel="manifest" href="/manifest.json" crossorigin="anonymous">
+    
+    <meta name="theme-color" content="#1e293b">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+      @keyframes zoom-in-out {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.15);
+          opacity: 1;
+        }
+      }
+      .animate-zoom-in-out {
+        animation: zoom-in-out 2s ease-in-out infinite;
+      }
+      @keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+      }
+      .animate-fade-in-up {
+        animation: fade-in-up 0.5s ease-out forwards;
+      }
+      @keyframes blink {
+        50% { opacity: 0.5; }
+      }
+      .animate-blinking-text {
+        animation: blink 1s ease-in-out infinite;
+      }
+
+      @keyframes text-color-change {
+          0%, 100% { color: #f1f5f9; text-shadow: 0 0 25px rgba(255,255,255,0.9); }
+          25% { color: #fbbf24; text-shadow: 0 0 25px rgba(251, 191, 36, 0.9); }
+          50% { color: #60a5fa; text-shadow: 0 0 25px rgba(96, 165, 250, 0.9); }
+          75% { color: #f87171; text-shadow: 0 0 25px rgba(248, 113, 113, 0.9); }
+      }
+      .animate-text-color-change {
+        animation: text-color-change 4s linear infinite, zoom-in-out 2.5s ease-in-out infinite;
+      }
+
+      .fireworks-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .firework {
+        --color1: cyan;
+        --color2: yellow;
+        --color3: fuchsia;
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        opacity: 0;
+        animation: shoot 2s infinite ease-out;
+      }
+
+      @keyframes shoot {
+          0% {
+              transform: translateY(100vh) scale(0.5);
+              opacity: 1;
+          }
+          50% {
+              opacity: 1;
+          }
+          100% {
+              transform: translateY(-20vh) scale(1);
+              opacity: 0;
+          }
+      }
+
+      .firework::after {
+          content: '';
+          position: absolute;
+          top: -20vh;
+          left: 0;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          opacity: 0;
+          animation: explode 2s infinite ease-out;
+          box-shadow: 
+              0 0 0 -2px var(--color1), 3em 0 0 -2px var(--color1), -3em 0 0 -2px var(--color1),
+              0 3em 0 -2px var(--color1), 0 -3em 0 -2px var(--color1),
+              2.5em 2.5em 0 -2px var(--color2), -2.5em 2.5em 0 -2px var(--color2),
+              2.5em -2.5em 0 -2px var(--color2), -2.5em -2.5em 0 -2px var(--color2),
+              2em 0 0 0 var(--color3), -2em 0 0 0 var(--color3), 0 2em 0 0 var(--color3),
+              0 -2em 0 0 var(--color3);
+      }
+
+      @keyframes explode {
+          50%, 55% {
+              opacity: 1;
+              transform: scale(1);
+          }
+          100% {
+              opacity: 0;
+              transform: scale(3);
+          }
+      }
+      .firework:nth-child(1) { left: 20%; animation-delay: 0.5s; }
+      .firework:nth-child(1)::after { animation-delay: 0.5s; }
+      .firework:nth-child(2) { left: 80%; animation-delay: 0.2s; --color1: lime; --color2: red; }
+      .firework:nth-child(2)::after { animation-delay: 0.2s; }
+      .firework:nth-child(3) { left: 50%; animation-delay: 1.2s; --color1: orange; --color2: violet; }
+      .firework:nth-child(3)::after { animation-delay: 1.2s; }
+      .firework:nth-child(4) { left: 30%; animation-delay: 1.8s; --color1: #ff0; --color2: #0ff; }
+      .firework:nth-child(4)::after { animation-delay: 1.8s; }
+      .firework:nth-child(5) { left: 90%; animation-delay: 1.5s; }
+      .firework:nth-child(5)::after { animation-delay: 1.5s; }
+      .firework:nth-child(6) { left: 10%; animation-delay: 1s; --color1: pink; --color2: lightgreen; }
+      .firework:nth-child(6)::after { animation-delay: 1s; }
+      .firework:nth-child(7) { left: 65%; animation-delay: 0.8s; }
+      .firework:nth-child(7)::after { animation-delay: 0.8s; }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-slate-900 bg-gradient-to-br from-slate-900 to-indigo-900/50 text-slate-100 antialiased">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }).catch(error => {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
